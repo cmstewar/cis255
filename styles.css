@@ -106,4 +106,12 @@
 	.column-center{
 			width: 100%; 
 	}
+	.container {
+    width: 350px;
+    height: 200px;
+	}
+	.container img {
+    width: 100%;
+    height: auto;
+	}
 }
