@@ -1,0 +1,109 @@
+.title{
+		text-align: center;
+		text-shadow: 10px 10px 10px rgba(0,0,0,0.5);
+		color: blue;
+}
+.sectitle{
+		text-align:center;
+		color:green;
+		text-decoration: underline;
+}
+.border{
+		text-shadow: -1px 0 red, 0 1px red, 1px 0 red, 0 -1px red;
+		text-align: center;
+		font-style:italic;
+		color:blue;
+}
+.layout{
+		text-shadow: 10px 10px 10px rgba(0,0,0,10);
+		color: purple;
+}
+
+.em{
+		text-decoration: underline;
+}
+.section{
+		color: red;
+}
+.ex1{
+		margin-top: 100px;
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: scale(0.15);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(.5);
+  }
+}
+.animateBlue{
+		color: navy;
+		font-size: 20px;
+		animation-iteration-count: infinite;
+		animation-name: fadeIn;
+		animation-play-state: running;
+		animation-duration: 4s;
+		animation-timing-function: ease-in;
+		animation-delay: 0.5s;
+}
+.animateBlue:hover{
+		animation-play-state: paused;
+}
+.animateRed{
+		color: red;
+		font-size: 20px;
+		animation-iteration-count: infinite;
+		animation-name: fadeIn;
+		animation-play-state: running;
+		animation-duration: 2s;
+		animation-timing-function: ease-in;
+		animation-delay: 2s;
+}
+.animateRed:hover{
+		animation-play-state: paused;
+}
+.animateGreen{
+		color: green;
+		font-size: 20px;
+		animation-iteration-count: infinite;
+		animation-name: fadeIn;
+		animation-play-state: running;
+		animation-duration: 2s;
+		animation-timing-function: ease-in;
+		animation-delay: 2s;
+}
+.animateGreen:hover{
+		animation-play-state: paused;
+}
+.column-left{ 
+		float: left; 
+		width: 32%; 
+		margin-right:10px;
+}
+.column-right{ 
+		float: right; 
+		width: 32%;
+}
+.column-center{
+		display: inline-block; 
+		width: 34%; 
+}
+
+@media only screen and (max-width: 480px){
+	
+	.column-left{
+			width: 100%;
+	}
+	.column-right{
+			width:100%;
+	}
+	.column-center{
+			width: 100%; 
+	}
+}
