@@ -1,86 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<style>
-	div {
-		color: red;
-		}
-	span {
-		color: blue;
-		}
-	</style>
-	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-</head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 <form action="https://github.com/cmstewar/cis255">
-    <input type="submit" value="Go to Github" />
+<input type="submit" value="Go to Github" />
 </form>
+<script>
+		$(document).ready(function(){
+		
+			myArray = new Array();
+
+			$.ajax({url: "junk.txt", success: function(result){
+				obj = JSON.parse(result);
+				sortedArray = sortByRoom(obj);
+			}});
+				
+				
+			$("#sortButton").click(function(){
+				showByRoom(sortedArray);
+			});
+function sortByRoom(obj){
+			var newArray = obj.courses;
+			
+				for(var i = 0; i < newArray.length; i++) {
+					for(var j = 1; j < newArray.length; j++) {
+						
+						 roomA = (newArray[j-1].meetingTimes[0].building + newArray[j-1].meetingTimes[0].room);
+						 roomB = (newArray[j].meetingTimes[0].building + newArray[j].meetingTimes[0].room); 
+					
+						 if(roomA > roomB) {
+							var temp = newArray[j-1];
+							newArray[j-1] = newArray[j];
+							newArray[j] = temp;
+						 }
+						}
+					}		
+				return newArray;
+			}
+
+function showByRoom(newArray){	
+				myColorArray = new Array();
+				
+					for(var i =0; i < newArray.length ; i++) {
+						myColorArray[i] = newArray[i].prefix + " " 
+						+ newArray[i].courseNumber + " " 
+						+ newArray[i].meetingTimes[0].building + " " 
+						+ newArray[i].meetingTimes[0].room;
+					}
+				
+				
+				myColorArray = jQuery.map( myColorArray, function(n, i) {
+					if(i % 2 == 0){
+						return '<span style="color:'
+						+ "blue"
+						+ '">' + n + '</span>';
+					}
+					else{
+						return '<span style="color:'
+						+ "red"
+						+ '">' + n + '</span>';
+					}
+							
+				});
+				
+				colorPrint = "";
+				for(var i =0; i < myColorArray.length ; i++) {
+					colorPrint = colorPrint + myColorArray[i] + " <br>";
+				}
+				$("#div1").html(colorPrint);
+
+}	
+});		
+</script>
+</head>
 <body>
 
-<div></div>
-<span></span>
-
-<h1>The XMLHttpRequest Object</h1>
-
-<p id="demo">Let AJAX change this text.</p>
-
-<button type="button" onclick="showByRoom(myArray);">Change Content</button>
-<button type="button" onclick="showDoc(obj);">Change Content2</button>
-
-<script>
-rt = " ";
-function loadDoc() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("demo").innerHTML = this.responseText;
-      rt = this.responseText;
-      obj = JSON.parse(rt); 
-    }
-  };
-  xhttp.open("GET", "junk.txt", true);
-  xhttp.send();
-}
-function showDoc(obj){
-  xx = "";
-    for(var i =0; i < obj.courses.length ; i++) 
-        xx = xx + obj.courses[i].prefix + " " 
-	         + obj.courses[i].courseNumber + " " 
-			 + obj.courses[i].meetingTimes[0].building + " " 
-			 + obj.courses[i].meetingTimes[0].room +" <br>";
-    document.getElementById("demo").innerHTML = xx;
-}
-function sortByRoom(a, b){
-	const roomA = a.meetingTimes.room;
-	const roomB = b.meetingTimes.room;
-
-	let comparison = 0;
-	if (roomA > roomB)
-		{
-			comparison = 1;
-		}
-	else if (roomA < roomB)
-		{
-			comparison = -1;
-		}
-	return comparison;
-
- myArray = obj.courses.meetingTimes.room.sort(showByRoom(a, b));
+	<h1>The XMLHttpRequest Object</h1>
+	
+	<div id="div1"><h2>Let jQuery AJAX Change This Text</h2></div>
+	
+	<button id ="sortButton" > Sort by Room </button>
 	
 
-}
-function showByRoom(myArray){
-	var first = myArray[0];
-	$( "div" ).text( first.join( "- "));
-	var second = myArray[1];
-	$( "span" ).text( second.join( "- "));
-	var third = myArray[2];
-	$( "div" ).text( third.join( "- "));
-
-	document.getElementById("demo").innerHTML = myArray;
-
-}
-</script>
 <p>
 I think that the same origin policy is a bad idea. 
 It makes things more difficult to use being that you can not use a script from one origin to get or change properties of something from another origin. 
