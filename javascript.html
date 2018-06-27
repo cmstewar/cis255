@@ -8,55 +8,52 @@
 <h1>The XMLHttpRequest Object</h1>
 
 <p id="demo">Let AJAX change this text.</p>
-<button type="button" onclick="loadDoc();">Change Content</button>
-<button type="button" onclick="showDoc(obj);">Change Content1</button>
+
 <button type="button" onclick="showByRoom(myArray);">Change Content2</button>
 
 <script>
 rt = " ";
-function loadDoc() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("demo").innerHTML = this.responseText;
-      rt = this.responseText;
-      obj = JSON.parse(rt); 
-    }
-  };
-  xhttp.open("GET", "https://api.svsu.edu/courses?prefix=CIS&courseNumber=255", true);
-  xhttp.send();
-}
-function showDoc(obj){ 
-  xx = "";
-    for(var i =0; i < obj.courses.length ; i++) 
- xx = xx + obj.courses[i].prefix + " " 
-	         + obj.courses[i].courseNumber + " " 
-			 + obj.courses[i].meetingTimes[0].building + " " 
-			 + obj.courses[i].meetingTimes[0].room +" <br>";
-    document.getElementById("demo").innerHTML = xx;
-}
-
-function sortByRoom(a, b){
-	const roomA = a.meetingTimes.room;
-	const roomB = b.meetingTimes.room;
-
-	let comparison = 0;
-	if (roomA > roomB)
-		{
-			comparison = 1;
-		}
-	else if (roomA < roomB)
-		{
-			comparison = -1;
-		}
-	return comparison;
-
- myArray = obj.courses.meetingTimes.room.sort(showByRoom(a, b));
+myArray = new Array();
 	
+	  var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		  rt = this.responseText;
+		  obj = JSON.parse(rt); 
+		  myArray = sortByRoom(obj);
+		}
+	  };
+	  xhttp.open("GET", "https://api.svsu.edu/courses?prefix=CIS&courseNumber=255", true);
+	  xhttp.send();
 
-}
-function showByRoom(myArray){
-    document.getElementById("demo").innerHTML = myArray;
+function sortByRoom(obj){
+		var objArray = obj.courses;
+		for(var i = 0; i < objArray.length; i++) {
+			for(var j = 1; j < objArray.length; j++) {
+				
+				 roomA = (objArray[j-1].meetingTimes[0].building + objArray[j-1].meetingTimes[0].room);
+				 roomB = (objArray[j].meetingTimes[0].building + objArray[j].meetingTimes[0].room); 
+			
+				 if(roomA > roomB) {
+					var temp = objArray[j-1];
+					objArray[j-1] = objArray[j];
+					objArray[j] = temp;
+				 }
+			}
+		  }
+		  
+		return objArray;
+		}
+function showByRoom(objArray){
+		print = "";
+			for(var i =0; i <objArray.length ; i++) {
+				print = print + objArray[i].prefix + " " 
+				+ objArray[i].courseNumber + " " 
+				+ objArray[i].meetingTimes[0].building + " " 
+				+ objArray[i].meetingTimes[0].room +" <br>";
+			}
+		document.getElementById("demo").innerHTML = print;
+
 
 }
 </script>
