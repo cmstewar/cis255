@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>AngularJS</title>
+		<meta charset="utf-8"/>
+		
+		<form action="https://github.com/cmstewar/cis255">
+			<input type="submit" value="Go to Github" />
+		</form>
+		
+		<br><br>
+		
+	</head>
+	<body>
+		<div ng-app="angApp">
+		<div ng-controller="fToC">
+		
+			<span>What Temperature is it in Fahrenheit?</span>
+			<input type="text" ng-model="fahDeg"/>
+			
+			<br><br>
+			
+			<button ng-click="updateValue()">Convert</button>
+			
+			<p>The Temperature in Celsius is:<output type="text" ng-model="convertion">
+			{{calculation}}</p>
+			
+			
+		</div>
+		<div ng-conroller="abc">
+			
+			<input type="text" ng-model="aInput" />
+			<br>
+			<input type="text" ng-model="bInput" />
+			<br>
+			<input type="text" ng-model="cInput" />
+			<br>
+			
+			<button ng-click="updateValue()">Solve the Problem</button>
+			<br><br>
+			<p>Solve for X and X2<output type="text" ng-model="abcEq">
+			{{calculation2}}</p>
+			
+		</div>
+		<span id ="result"></span>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+		<script>
+			
+			var angApp = angular.module('angApp', []);
+			
+			angApp.controller('fToC', function($scope){
+				$scope.fahDeg = 0;
+				
+				$scope.updateValue = function(){
+					$scope.calculation = ($scope.fahDeg - 32) * (5/9)
+			};
+			});
+			
+			angApp.controller('abc', function($scope){
+				$scope.aInput = 0;
+				$scope.bInput = 0;
+				$scope.cInput = 0;
+			
+				$scope.updateValue=function(){
+				$scope.calculation2 = (((-1*$scope.bInput) + Math.sqrt(Math.pow($scope.bInput,2)) - (4*$scope.aInput*$scope.cInput))/(2*$scope.aInput));
+				$scope.calculation2 = (((-1*$scope.bInput) - Math.sqrt(Math.pow($scope.bInput,2)) - (4*$scope.aInput*$scope.cInput))/(2*$scope.aInput));
+			};
+			
+			});
+					
+		</script>
+		
+		</body>	
+	
+</html>
